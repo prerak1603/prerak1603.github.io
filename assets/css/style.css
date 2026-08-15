@@ -432,13 +432,26 @@ h1.display .accent { color: var(--signal); }
   background: var(--surface);
   border: 2px solid var(--text-primary);
   clip-path: polygon(12% 0%, 100% 0%, 88% 100%, 0% 100%);
+  overflow: hidden;
+}
+/* Both children are absolutely positioned so they stack (img on top,
+   covering the placeholder) instead of being laid out side-by-side as
+   flex siblings — that was the bug: with display:flex on the parent,
+   the placeholder text and the photo were splitting the box in half
+   rather than the photo covering the placeholder once it loaded. */
+.p5-photo-box img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.p5-photo-box .placeholder {
+  position: absolute;
+  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
-}
-.p5-photo-box img { width: 100%; height: 100%; object-fit: cover; }
-.p5-photo-box .placeholder {
   font-family: var(--font-mono);
   font-size: 11px;
   color: var(--text-dim);
